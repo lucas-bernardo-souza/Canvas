@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desenhar Retas</title>
+
+    <style type="text/css">
+        canvas{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="caixa_desenho" width="500" height="500"></canvas>
+
+    <script type="text/javascript">
+        const canvas = document.getElementById("caixa_desenho");
+        const ctx = canvas.getContext('2d');
+
+        // Desenha uma imagem no canva para iniciar
+        ctx.fillStyle = 'white';
+        // Desenha um retângulo do tamanho do canvas
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        function mudarCorPixel(x, y, r, g, b, a){
+            // criar uma imagem de 1x1 pixel
+            const pixel = ctx.createImageData(1,1);
+
+            // modificar a cor do pixel que será passada como parâmetro
+            pixel.data[0] = r; // red
+            pixel.data[1] = g; // green
+            pixel.data[2] = b; // blue
+            pixel.data[3] = a; // Alpha (0 é transparente, 255 é opaco)
+
+            // colocar o pixel no canvas nas coordenadas (x,y)
+            ctx.putImageData(pixel, x, y);
+        }
+
+        mudarCorPixel(50, 50, 255, 0, 0, 255);
+
+        /*
+            O método 'putImageData()' pode ser usado para modificar regiões maiores de pixels, mas para mudar um único pixel, você apenas cria um 'ImageData' de 1x1 e o coloca no canvas.
+            Para mais controle sobre os pixels é possível utilziar 'getImageData()' para capturar uma região, modificá-la, e então aplicar as mudanças de volta usando 'putImageData()'.
+        */
+    </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Canvas tutorial</title>
@@ -22,31 +23,55 @@
       function draw_retangulo(){
         var canvas = document.getElementById("canvas");
         if(canvas.getContext){
-            var ctx = canvas.getContext("2d");
+          var ctx = canvas.getContext("2d");
 
-            // Desenha um retângulo preto de 100 pixels
-            ctx.fillRect(25, 25, 100, 100);
-            // Limpa um retângulo, tornando-o totalmente transparente
-            // apaga um quadrado de 60x60 pixels a partir do centro
-            ctx.clearRect(45, 45, 60, 60);
-            // Desenha a borda do retângulo
-            // Cria uma borda de 50x50 pixels em volta do quadrado apagado
-            ctx.strokeRect(50, 50, 50, 50);
-        }
-
-        function draw_triangulo() {
-            var canvas = document.getElementById("canvas");
-            if(canvas.getContext) {
-                var ctx = canvas.getContext("2d");
-
-                ctx.beginPath();
-                ctx.moveTo(75, 50);
-                ctx.lineTo(100, 75);
-                ctx.lineTo(100,25);
-                ctx.fill();
-            }
+          // Desenha um retângulo preto de 100 pixels
+          ctx.fillRect(25, 25, 100, 100);
+          // Limpa um retângulo, tornando-o totalmente transparente
+          // apaga um quadrado de 60x60 pixels a partir do centro
+          ctx.clearRect(45, 45, 60, 60);
+          // Desenha a borda do retângulo
+          // Cria uma borda de 50x50 pixels em volta do quadrado apagado
+          ctx.strokeRect(50, 50, 50, 50);
         }
       }
+
+      function draw_triangulo() {
+        var canvas = document.getElementById("canvas");
+        if(canvas.getContext) {
+          var ctx = canvas.getContext("2d");
+
+          // Cria um novo path que permite a criação de novos desenhos
+          ctx.beginPath();
+          // método moveTo seleciona um ponto de coordenadas (x,Y)
+          // funciona como se fosse uma caneta pressionada em um ponto de um papel
+          ctx.moveTo(50, 50);
+          ctx.lineTo(150, 50);
+          
+          ctx.lineTo(100,50);
+          
+          ctx.lineTo(50,50);
+          ctx.stroke();
+        }
+      }
+
+      function draw_sorriso() {
+        var canvas = document.getElementById("canvas");
+        if(canvas.getContext){
+          var ctx = canvas.getContext("2d");
+
+          ctx.beginPath();
+          ctx.arc(75, 75, 50, 0, Math.PI * 2, true); // Círculo exterior
+          ctx.moveTo(110, 75);
+          ctx.arc(75, 75, 35, 0, Math.PI, false); // Boca (sentido horário)
+          ctx.moveTo(65, 65);
+          ctx.arc(60, 65, 5, 0, Math.PI * 2, true); // Olho esquerdo
+          ctx.moveTo(95, 65);
+          ctx.arc(90, 65, 5, 0, Math.PI * 2, true); // Olho direito
+          ctx.stroke();
+        }
+      }
+
     </script>
     <style type="text/css">
       canvas {
@@ -54,7 +79,7 @@
       }
     </style>
   </head>
-  <body onload="draw_retangulo();">
-    <canvas id="canvas" width="150" height="150"></canvas>
+  <body onload="draw_sorriso();">
+    <canvas id="canvas" width="500" height="500"></canvas>
   </body>
 </html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Line</title>
+
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="caixa_desenho" width="500" height="500"></canvas>
+
+    <script type="text/javascript">
+        const canvas = document.getElementById("caixa_desenho");
+        const ctx = canvas.getContext('2d');
+
+        let desenhando = false;
+
+        // função para capturar as coordenadas do mouse e iniciar o desenho
+        function iniciarDesenho(event){
+            desenhando = true;
+            ctx.beginPath();
+            // move a caneta para o ponto inicial
+            ctx.moveTo(event.offsetX, event.offsetY);
+        }
+
+        // Função para desenhar a linha
+        function desenhar(event){
+            if(desenhando){
+                // Desenha a linha até a nova posição do mouse
+                ctx.lineTo(event.offsetX, event.offsetY);
+                ctx.stroke();
+            }
+        }
+
+        function pararDesenho(){
+            desenhando = false;
+            ctx.closePath();
+        }
+
+        // Adiciona os eventos de mouse ao canvas
+        canvas.addEventListener('mousedown', iniciarDesenho);
+        canvas.addEventListener('mousemove', desenhar);
+        canvas.addEventListener('mouseup', pararDesenho);
+        canvas.addEventListener('mouseleave', pararDesenho);
+    </script>
+</body>
+</html>
