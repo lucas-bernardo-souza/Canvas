@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <title>Canvas tutorial</title>
+    <script type="text/javascript">
+      function draw() {
+        var canvas = document.getElementById("canvas");
+        if (canvas.getContext) {
+          var ctx = canvas.getContext("2d");
+
+          ctx.fillStyle = "rgb(200,0,0)";
+          // 'fillRect' é uma função que desenha retângulos
+          // fiilRect(x, y, width, height)
+          // 'x' e 'y' determinam a posição no canvas (em relação a origem) no canto superior esquerdo do retangulo
+          // 'width' largura e 'height' altura definem o tamanho do retângulo
+          ctx.fillRect(10,10,55,50);
+
+          ctx.fillStyle = "rgba(0,0,200,0.5)";
+          ctx.fillRect(30,30,55,50);
+        }
+      }
+
+      function draw_retangulo(){
+        var canvas = document.getElementById("canvas");
+        if(canvas.getContext){
+            var ctx = canvas.getContext("2d");
+
+            // Desenha um retângulo preto de 100 pixels
+            ctx.fillRect(25, 25, 100, 100);
+            // Limpa um retângulo, tornando-o totalmente transparente
+            // apaga um quadrado de 60x60 pixels a partir do centro
+            ctx.clearRect(45, 45, 60, 60);
+            // Desenha a borda do retângulo
+            // Cria uma borda de 50x50 pixels em volta do quadrado apagado
+            ctx.strokeRect(50, 50, 50, 50);
+        }
+
+        function draw_triangulo() {
+            var canvas = document.getElementById("canvas");
+            if(canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+
+                ctx.beginPath();
+                ctx.moveTo(75, 50);
+                ctx.lineTo(100, 75);
+                ctx.lineTo(100,25);
+                ctx.fill();
+            }
+        }
+      }
+    </script>
+    <style type="text/css">
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body onload="draw_retangulo();">
+    <canvas id="canvas" width="150" height="150"></canvas>
+  </body>
+</html>

@@ -1,0 +1,3 @@
+No arquivo index temos o exemplo um da documentação da mdn web_docs
+O script tem uma função draw() que é executada uma vez ao término do carregamento da página,
+por meio do evento onload
