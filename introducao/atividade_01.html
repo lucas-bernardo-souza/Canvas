@@ -47,7 +47,8 @@
         function finalizarDesenho(event){
             coordenadas.push(event.offsetX);
             coordenadas.push(event.offsetY);
-            desenharLinha();
+            //desenharLinha();
+            desenharLinhaParametrica();
         }
 
         function desenharLinha(){
@@ -89,7 +90,7 @@
                 for(let y = y2; y <= y1; y++){
                     // decrementa Y e calcula X
                     x = (y - y1) / m + x1;
-                    mudarCorPixel(x, y, 128, 128, 128, 255);
+                    mudarCorPixel(x, y, 252, 186, 3, 255);
                 }
             } else if(deltaX > deltaY && x2 < x1) {
                 // decrementando X (começa em X2 e vai até X1)
@@ -98,6 +99,20 @@
                     y = m * (x - x1) + y1;
                     mudarCorPixel(x, y, 0, 255, 0, 255);
                 }
+            }
+        }
+
+        function desenharLinhaParametrica(){
+            let y, x, x1, y1, x2, y2 = 0;
+            y2 = coordenadas.pop();
+            x2 = coordenadas.pop();
+            y1 = coordenadas.pop();
+            x1 = coordenadas.pop();
+
+            for(let t = 0; t <= 1; t += 0.01){
+                x = x1 + (x2 - x1) * t;
+                y = y1 + (y2 - y1) * t;
+                mudarCorPixel(x, y, 255, 0, 0, 255);
             }
         }
 
