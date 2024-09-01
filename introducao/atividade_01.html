@@ -59,34 +59,45 @@
             y1 = coordenadas.pop();
             x1 = coordenadas.pop();
             let m = (y2-y1)/(x2-x1);
+            let deltaY, deltaX = 0;
+            if(y1 > y2){
+                deltaY = y1 - y2;
+            } else {
+                deltaY = y2 - y1;
+            }
+            if(x1 > x2){
+                deltaX = x1 - x2;
+            } else {
+                deltaX = x2 - x1;
+            }
+
             console.log('x1: ' + x1 + ' x2: ' + x2);
-            if(x1 < x2){
-                if(y1 < y2){
-                    for(let y = y1; y <= y2; y++){
-                        x = (y - y1) / m + x1;
-                        mudarCorPixel(x, y, 0, 0, 255, 255);
-                    }
-                }
-                else {
-                    for(let x = x1; x <= x2; x++){
+            if (deltaX > deltaY && x1 < x2){
+                for(let x = x1; x <= x2; x++){
                         y = m * (x - x1) + y1;
                         mudarCorPixel(x, y, 255, 0, 0, 255);
                     }
+            } else if(deltaY > deltaX && y1 < y2){
+                // incrementa Y (começa em Y1 e vai até Y2)
+                for(let y = y1; y <= y2; y++){
+                    // incrementa Y e calcula X
+                    x = (y - y1) / m + x1;
+                    mudarCorPixel(x, y, 0, 0, 255, 255);
                 }
-                
-            } else if(x2 < x1){
-                if(y2 < y1){
-                    for(let y = y2; y <= y1; y++){
-                        x = (y - y1) / m + x1;
-                        mudarCorPixel(x, y, 0, 0, 255, 255);
-                    }
-                } 
-                else {
-                    for(let x = x2; x <= x1; x++){
-                        y = m * (x - x1) + y1;
-                        mudarCorPixel(x, y, 0, 255, 0, 255);
-                    }
-                }  
+            } else if(deltaY > deltaX && y2 < y1) {
+                // decrementa Y (começa em Y2 e vai até Y1)
+                for(let y = y2; y <= y1; y++){
+                    // decrementa Y e calcula X
+                    x = (y - y1) / m + x1;
+                    mudarCorPixel(x, y, 128, 128, 128, 255);
+                }
+            } else if(deltaX > deltaY && x2 < x1) {
+                // decrementando X (começa em X2 e vai até X1)
+                for(let x = x2; x <= x1; x++){
+                    // decrementa X e calcula Y
+                    y = m * (x - x1) + y1;
+                    mudarCorPixel(x, y, 0, 255, 0, 255);
+                }
             }
         }
 
