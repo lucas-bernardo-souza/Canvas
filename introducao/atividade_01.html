@@ -17,6 +17,7 @@
     <script type="text/javascript">
         const canvas = document.getElementById("caixa_desenho");
         const ctx = canvas.getContext('2d');
+        var coordenadas = [];
 
         // Desenha uma imagem no canva para iniciar
         ctx.fillStyle = 'white';
@@ -37,7 +38,62 @@
             ctx.putImageData(pixel, x, y);
         }
 
-        mudarCorPixel(50, 50, 255, 0, 0, 255);
+        function iniciarDesenho(event){
+            coordenadas.push(event.offsetX);
+            coordenadas.push(event.offsetY);
+            return;
+        }
+
+        function finalizarDesenho(event){
+            coordenadas.push(event.offsetX);
+            coordenadas.push(event.offsetY);
+            desenharLinha();
+        }
+
+        function desenharLinha(){
+            // Desenhando linhas que vão da esquerda para direita e são mais horizontais que verticais
+            
+            let y, x1, y1, x2, y2 = 0;
+            y2 = coordenadas.pop();
+            x2 = coordenadas.pop();
+            y1 = coordenadas.pop();
+            x1 = coordenadas.pop();
+            let m = (y2-y1)/(x2-x1);
+            console.log('x1: ' + x1 + ' x2: ' + x2);
+            if(x1 < x2){
+                if(y1 < y2){
+                    for(let y = y1; y <= y2; y++){
+                        x = (y - y1) / m + x1;
+                        mudarCorPixel(x, y, 0, 0, 255, 255);
+                    }
+                }
+                else {
+                    for(let x = x1; x <= x2; x++){
+                        y = m * (x - x1) + y1;
+                        mudarCorPixel(x, y, 255, 0, 0, 255);
+                    }
+                }
+                
+            } else if(x2 < x1){
+                if(y2 < y1){
+                    for(let y = y2; y <= y1; y++){
+                        x = (y - y1) / m + x1;
+                        mudarCorPixel(x, y, 0, 0, 255, 255);
+                    }
+                } 
+                else {
+                    for(let x = x2; x <= x1; x++){
+                        y = m * (x - x1) + y1;
+                        mudarCorPixel(x, y, 0, 255, 0, 255);
+                    }
+                }  
+            }
+        }
+
+        //mudarCorPixel(50, 50, 255, 0, 0, 255);
+
+        canvas.addEventListener('mousedown', iniciarDesenho);
+        canvas.addEventListener('mouseup', finalizarDesenho);
 
         /*
             O método 'putImageData()' pode ser usado para modificar regiões maiores de pixels, mas para mudar um único pixel, você apenas cria um 'ImageData' de 1x1 e o coloca no canvas.
