@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style type="text/css">
+        canvas{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="caixa_desenho" width="500" height="500"></canvas>
+
+    <script type="text/javascript">
+        const canvas = document.getElementById("caixa_desenho");
+        const ctx = canvas.getContext('2d');
+
+        // Desenha uma imagem no canva para iniciar
+        ctx.fillStyle = 'white';
+        // Desenha um retângulo do tamanho do canvas
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        let coordenadas = [];
+
+        function mudarCorPixel(x, y, r, g, b, a){
+            // criar uma imagem de 1x1 pixel
+            const pixel = ctx.createImageData(1,1);
+
+            // modificar a cor do pixel que será passada como parâmetro
+            pixel.data[0] = r; // red
+            pixel.data[1] = g; // green
+            pixel.data[2] = b; // blue
+            pixel.data[3] = a; // Alpha (0 é transparente, 255 é opaco)
+
+            // colocar o pixel no canvas nas coordenadas (x,y)
+            ctx.putImageData(pixel, x, y);
+        }
+
+        function iniciarDesenho(event){
+            coordenadas.push(event.offsetX);
+            coordenadas.push(event.offsetY);
+            return;
+        }
+
+        function finalizarDesenho(event){
+            coordenadas.push(event.offsetX);
+            coordenadas.push(event.offsetY);
+            bresenham();
+        }
+
+        function bresenham(){
+            let x0, y0, x1, y1, dx, dy, d = 0; 
+            y1 = coordenadas.pop();
+            x1 = coordenadas.pop();
+            y0 = coordenadas.pop();
+            x0 = coordenadas.pop();
+            dx = Math.abs(x1 - x0);
+            dy = Math.abs(y1 - y0);
+            let sx = (x0 < x1) ? 1 : -1;
+            let sy = (y0 < y1) ? 1 : -1;
+            let err = dx - dy;
+            
+            while(true){
+                mudarCorPixel(x0, y0, 255, 0, 0, 255);
+
+                if((x0 === x1) && (y0 === y1)) break;
+                let e2 = 2 * err;
+                if(e2 > -dy){
+                    err -= dy;
+                    x0 += sx;
+                }
+                if(e2 < dx) {
+                    err += dx;
+                    y0 += sy;
+                }
+            }
+
+            for(let x = x0; x < x1; x++){
+                let y = y0;
+                mudarCorPixel(x, y, 255, 0, 0, 255);
+                let e2 = 2 * err;
+                if(e2 > -dy){
+                    err -= dy;
+                    x += sx;
+                }
+                if(e2 < dx){
+                    err += dx;
+                    y += sy;
+                }
+            }
+        }
+
+        canvas.addEventListener('mousedown', iniciarDesenho);
+        canvas.addEventListener('mouseup', finalizarDesenho);
+
+    </script>
+</body>
+</html>

@@ -52,8 +52,7 @@
         }
 
         function desenharLinha(){
-            // Desenhando linhas que vão da esquerda para direita e são mais horizontais que verticais
-            
+            // Desenhando linhas que vão da esquerda para direita e são mais horizontais que verticaiss
             let y, x1, y1, x2, y2 = 0;
             y2 = coordenadas.pop();
             x2 = coordenadas.pop();
@@ -71,8 +70,7 @@
             } else {
                 deltaX = x2 - x1;
             }
-
-            console.log('x1: ' + x1 + ' x2: ' + x2);
+            //console.log('x1: ' + x1 + ' x2: ' + x2);
             if (deltaX > deltaY && x1 < x2){
                 for(let x = x1; x <= x2; x++){
                         y = m * (x - x1) + y1;
