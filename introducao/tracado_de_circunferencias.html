@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style type="text/css">
+        canvas{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="caixa_desenho" width="500" height="500"></canvas>
+
+    <script type="text/javascript">
+        const canvas = document.getElementById("caixa_desenho");
+        const ctx = canvas.getContext('2d');
+
+        // Desenha uma imagem no canva para iniciar
+        ctx.fillStyle = 'white';
+        // Desenha um retângulo do tamanho do canvas
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        let coordenadas = [];
+
+        function mudarCorPixel(x, y, r, g, b, a){
+            // criar uma imagem de 1x1 pixel
+            const pixel = ctx.createImageData(1,1);
+
+            // modificar a cor do pixel que será passada como parâmetro
+            pixel.data[0] = r; // red
+            pixel.data[1] = g; // green
+            pixel.data[2] = b; // blue
+            pixel.data[3] = a; // Alpha (0 é transparente, 255 é opaco)
+
+            // colocar o pixel no canvas nas coordenadas (x,y)
+            ctx.putImageData(pixel, x, y);
+        }
+
+        function iniciarDesenho(event){
+            coordenadas.push(event.offsetX);
+            coordenadas.push(event.offsetY);
+            return;
+        }
+
+        function finalizarDesenho(event){
+            coordenadas.push(event.offsetX);
+            coordenadas.push(event.offsetY);
+            equacao_circunferencia();
+        }
+
+        function raio(x0, y0, x1, y1){
+            // Distância euclidiana
+            let r = Math.sqrt(((x1 - x0) * (x1 - x0)) + ((y1 - y0) * (y1 - y0)));
+            return r;
+        }
+
+        function equacao_circunferencia(){
+            let x0, y0, x1, y1, r, y= 0;
+            y1 = coordenadas.pop();
+            x1 = coordenadas.pop();
+            // x0 e y0 é o ponto central da circunferência
+            y0 = coordenadas.pop();
+            x0 = coordenadas.pop();
+            r = raio(x0, y0, x1, y1);
+            r = r / Math.sqrt(2);
+            console.log(r);
+            for(let x = r; x > y; x--){
+                y = Math.sqrt(r * r - x * x);
+                mudarCorPixel(x0+x, y0+y, 255, 0, 0, 255);
+                mudarCorPixel(x0+y, y0+x, 255, 0, 0, 255);
+                mudarCorPixel(x0-y, y0+x, 255, 0, 0, 255);
+                mudarCorPixel(x0-x, y0+y, 255, 0, 0, 255);
+                mudarCorPixel(x0-x, y0-y, 255, 0, 0, 255);
+                mudarCorPixel(x0-y, y0-x, 255, 0, 0, 255);
+                mudarCorPixel(x0+y, y0-x, 255, 0, 0, 255);
+                mudarCorPixel(x0+x, y0-y, 255, 0, 0, 255);
+
+            }
+        }
+
+        canvas.addEventListener('mousedown', iniciarDesenho);
+        canvas.addEventListener('mouseup', finalizarDesenho);
+
+    </script>
+</body>
+</html>
